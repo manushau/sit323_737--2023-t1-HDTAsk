@@ -1,0 +1,218 @@
+{% extends 'music/base.html' %}
+
+{% load extra_tags %}
+
+{% block title %}
+    Sky Beats
+{% endblock %}
+
+{% block albums_active %}
+    active
+{% endblock %}
+
+{% get_mod2 0 as count %}
+{% load static %}
+{% block page %}
+<style>
+    #table {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    #table td, #table th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #table tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #table tr:hover {background-color: #ddd;}
+    
+    #table th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+    h1,h3,p,ul{
+    text-align: center;
+}
+    </style>
+<div class="albums-container container-fluid">
+    <!-- Albums -->
+    <!-- <div class="row">
+        <div class="col-sm-12">
+            <h3>{{ user.username }}'s Albums</h3>
+        </div>
+    </div> -->
+    
+    
+    {% if albums %}
+    <div class="container">
+        <h1><b>Hi!! {{ user.username }} : Where Live Happens</b></h1>
+        {% if searcher %}
+    <div class="row">
+        <div class="col-sm-12">
+            <br>
+            <span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp; No Matching Albums Found
+        </div>
+    </div>
+{% else %}
+    <div class="row center">
+        <div class="col-sm-12">
+            <br>
+            <a href="{% url 'music:album-add' %}">
+                <button type="button" class="btn btn-success btn-sm">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp; Add an Album
+                </button>
+            </a>
+        </div>
+    </div>
+{% endif %}
+        <h3>Elevate your sound<br>
+
+            With our lossless audio experience and high-fidelity sound quality, stream music like you've never heard it before. No compromises. Just pure sound.</h3><br>
+        <div class="row">
+            
+    
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Logo</th>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Favourite</th>
+                        <th>View</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for album in albums %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                                <a href="{% url 'music:detail' album.id %}">
+                                    <img src="{{ album.album_logo.url }}" class="img-responsive" style="max-height: 50px;">
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'music:detail' album.id %}">
+                                    {{ album.album_title }}
+                                </a>
+                            </td>
+                            <td>{{ album.artist }}</td>
+                            <td>
+                                <a href="{% url 'music:favorite_album' album.id %}"
+                                   class="btn btn-default btn-sm btn-favorite"
+                                   role="button">
+                                    <span class="glyphicon glyphicon-heart {% if album.is_favorite %}active{% endif %}"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'music:detail' album.id %}"
+                                   class="btn btn-success btn-sm btn-block"
+                                   role="button">View</a></td>
+                                   <td>
+                                <form action="{% url 'music:album-delete' album.id %}" method="post" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="album_id" value="{{ album.id }}"/>
+                                    <button type="submit" class="btn btn-danger btn-sm btn-block">
+                                        <span class="glyphicon glyphicon-trash"></span> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    
+</div>
+</div>
+
+
+    <!-- If user searches and there are songs -->
+    {% if songs %}
+    <div class="container">
+        <div class="row" style="padding-top: 50px">
+            <div class="col-sm-12" style="padding-bottom: 20px">
+                <h3>{{ user.username }}'s Songs</h3>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Song Title</th>
+                                <th>Artist</th>
+                                <th>Audio File</th>
+                                <th>Album</th>
+                                <th>Favorite</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for song in songs %}
+                                <tr>
+                                    <td>{{ song.song_title }}</td>
+                                    <td>{{ song.album.artist }}</td>
+                                    <td>
+                                        <a target="_blank" href="{{ song.audio_file.url }}">
+                                            <button type="button" class="btn btn-success btn-xs">
+                                                <span class="glyphicon glyphicon-play"></span>&nbsp; Play
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'music:detail' song.album.id %}">
+                                            <img src="{{ song.album.album_logo.url }}" class="img-responsive"
+                                                 style="width: 20px; float: left; margin-right: 10px;"/>
+                                        </a>
+                                        <a href="{% url 'music:detail' song.album.id %}">{{ song.album.album_title }}</a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'music:favorite' song.id %}" class="btn-favorite"><span
+                                                class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+            {% elif searcher %}
+       <div class="container">
+            <div class="row">
+            <div class="col-sm-12">
+                <br>
+                <span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp; No Matching Songs Found
+            </div>
+            </div>
+        </div>
+</div>
+    {% endif %}
+
+
+{% endblock %}
+
+
+{#{% block page %}#}
+{##}
+{#    <h1> ALBUM LIST </h1>#}
+{#    {% if all_albums %}#}
+{#        <ul>#}
+{#            {% for album in all_albums %}#}
+{#                <li><a href="{% url 'music:detail' album.id %}"> {{ album.album_title }} </a></li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    {% else %}#}
+{#        <h2> No Albums Found </h2>#}
+{#    {% endif %}#}
+{##}
+{#{% endblock %}#}

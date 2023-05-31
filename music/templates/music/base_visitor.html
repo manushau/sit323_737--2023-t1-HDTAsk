@@ -1,0 +1,115 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+       body {
+  background-image: url("{% static 'music/images/back0.jpg' %}");
+  background-size: cover;
+    height: 100vh;
+    position: relative;
+}
+
+    </style>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sky Beats{% endblock %}</title>
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{%  static 'music/images/favicon.ico' %}"/>
+    <!-- Font Awesome -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+rel="stylesheet"
+/>
+    <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet" type="text/css">
+    <!-- MDB -->
+<script
+type="text/javascript"
+src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="{% static 'music/script.js' %}"></script>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg " style="background-color: #F3F6F4;">
+
+    <!-- Container wrapper -->
+    <div class="container">
+      <!-- Navbar brand -->
+      <!-- <a class="navbar-brand me-2" href="https://mdbgo.com/">
+        <img
+          src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
+          height="16"
+          alt="MDB Logo"
+          loading="lazy"
+          style="margin-top: -1px;"
+        />
+      </a> -->
+  
+      <!-- Toggle button -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarButtonsExample"
+        aria-controls="navbarButtonsExample"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarButtonsExample">
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home_page' %}" style="color: #000; font-weight: bold;">Sky Beats</a>
+            </li>
+          </ul>
+          
+        <!-- Left links -->
+  
+        <div class="d-flex align-items-center" id="topNavBar">
+          <a type="button" class="btn btn-dark px-3 me-2" href="{% url 'music:login_user' %}">
+            Login
+          </a>         
+           <a type="button" class="btn btn-dark me-3" href="{% url 'music:register' %}" >
+             Sign up for free
+           </a>
+        </div>
+      </div>
+      <!-- Collapsible wrapper -->
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+
+
+
+    
+{% block page %}
+{% endblock %}
+</body>
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
+></script>
+</html>

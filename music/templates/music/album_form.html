@@ -1,0 +1,70 @@
+{% extends 'music/base.html' %}
+{% block title %} Add a New Album {% endblock %}
+{#{% block albums_active %} active {% endblock %}#}
+
+{% block page %}
+<style>
+    .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+h1,h3,p,ul{
+    text-align: center;
+}
+
+</style>
+
+    <div class="container center">
+        <div class="row">
+            <div class="justify-content-center">
+                        <h1>Add a New Album</h1>
+                        <h3>How do I add music?</h3>
+                        <p>First, create a new album by filling out the form on this page. Once an album is created you
+                            will be able to add/upload songs.</p>
+                        {% if error_message %}
+                            <p><strong>{{ error_message }}</strong></p>
+                        {% endif %}
+                        <div class="card">
+                            <div class="card-body">
+                        <div class="container">
+                            <div class="col-sm-6 col-md-6">
+                                
+                        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <!-- 2 column grid layout with text inputs for the first and last names -->
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+                                            <input type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}" class="form-control" name="{{ field.html_name }}" value="{{ field.value }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="form-group">
+                                <div class="row mb-4">
+                                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                        </div>
+
+
+
+
+                        
+                    </div>
+                </div>
+            </div>
+
+            
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
